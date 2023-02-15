@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
+// Define a linked list structure to store integers
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Create a new Node with the given data
+Node* createNode(int data) {
+    Node* node = (Node*) malloc(sizeof(Node));
+    if (node == NULL) {
+        printf("Error: Out of memory.\n");
+        exit(1);
+    }
+    node->data = data;
+    node->next = NULL;
+    return node;
+}
+
+// Add a new Node to the end of the list
+void append(Node** head, int data) {
+    Node* newNode = createNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        Node* current = *head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+}
+
+// Print the contents of the list
+void printList(Node* head) {
+    printf("List: ");
+    Node* current = head;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// Compute the average of a variable number of integers
+double average(int count, ...) {
+    va_list args;
+    va_start(args, count);
+
+    int sum = 0;
+    for (int i = 0; i < count; i++) {
+        int value = va_arg(args, int);
+        sum += value;
+    }
+
+    va_end(args);
+
+    return (double) sum / count;
+}
+
+int main() {
+    // Create an empty linked list
+    Node* head = NULL;
+
+    // Add some integers to the list
+    append(&head, 1);
+    append(&head, 2);
+    append(&head, 3);
+    append(&head, 4);
+
+    // Print the contents of the list
+    printList(head);
+
+    // Compute the average of the integers in the list
+    double avg = average(4, head->data, head->next->data, head->next->next->data, head->next->next->next->data);
+
+    printf("Average: %f\n", avg);
+
+    return 0;
+}
