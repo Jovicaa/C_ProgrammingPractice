@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("Koristimo: %s <naziv>\n", argv[0]);
+        return 1;
+    }
+
+    FILE *fp = fopen(argv[1], "r");
+    if (fp == NULL) {
+        printf("Greska prilikom otvaranja datoteke %s\n", argv[1]);
+        return 1;
+    }
+
+    int opened = 0, closed = 0;
+    int c;
+    while ((c = fgetc(fp)) != EOF) {
+        if (c == '(') {
+            opened++;
+        } else if (c == ')') {
+            closed++;
+            if (closed > opened) {
+                printf("Greska, izraz nije moguc!\n");
+                return 1;
+            }
+        }
+    }
+
+    fclose(fp);
+
+    if (opened != closed) {
+        printf("Greska! Broj otvorenih i zatvorenih zagrada se ne podudara.\n");
+        return 1;
+    }
+
+    printf("Datoteka %s ispunjava logicke uslove!\n", argv[1]);
+    return 0;
+}
