@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     fclose(fp);
 
     if (opened != closed) {
-        printf("Greska! Broj otvorenih i zatvorenih zagrada se ne podudara.\n");
+        printf("Greska!\nBroj otvorenih i zatvorenih zagrada se ne podudara.\n");
         return 1;
     }
 
